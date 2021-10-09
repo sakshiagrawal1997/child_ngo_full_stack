@@ -1,0 +1,149 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f8f8f8;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+.style-inp{
+  border:none;
+  border-bottom: 1px solid #cccccc;
+  padding: 5px 10px;
+  outline: none;
+  background : none;
+  border-radius: 0px;
+}
+[placeholder]:focus::-webkit-input-placeholder {
+  transition: text-indent 0.4s 0.4s ease; 
+  text-indent: -100%;
+  opacity: 1;
+  outline-width: 0;
+  border: none;
+}
+
+.theme-color-fill{
+  background-color: green;
+}
+.theme-color-fill:hover{
+  background-color : #0080008a;
+}
+.theme-color-text{
+  color: green;
+}
+.circles {
+  display: flex;
+  justify-content: center;
+}
+.circle-with-text {
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  border-style: solid;
+  border-color: green;
+  text-align: center;
+  margin: 5px 20px;
+  font-size: 30px;
+  padding: 15px;
+  display: flex;
+  height: 100px;
+  width: 100px;
+}
+input:focus, textarea:focus, select:focus{
+  outline: none !important;
+  border: none !important;
+  background-color: blue;
+}
+.theme-color-2{
+  background-color: grey;
+}
+
+.link-list {
+  display: inline-block;
+  color: #000;
+  text-decoration: none;
+  margin-right: 50px;
+  font-size: 15px;
+}
+
+.link-list::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #000;
+  transition: width .3s;
+}
+
+.link-list:hover::after {
+  width: 100%;
+}
+.child-info{
+  background-color: white;
+  border: 1px solid #e9e9e9;
+}
+.child-info-det{
+    font-size: 19px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.text-left{
+  text-align: left;
+}
+.text-right{
+  text-align: right;
+}
+.child-image-wrapper{
+  padding: 0;
+}
+.child-image{
+  width: 100%;
+}
+.active::after{
+  content: '';
+  display: block;
+  height: 2px;
+  background: #000;
+  transition: width .3s;
+  width: 100%;
+}
+.state-col{
+  border: 2px solid;
+  border-radius: 5px;
+  color: green;
+  font-weight: 600;
+  padding: 20px;
+}
+.state-name{
+  font-weight: 500;
+  font-size: x-large;
+}
+.district-name{
+  font-weight: 500;
+  font-size: x-large;
+  text-align: left;
+}
+.float-left{
+  float: left;
+}
+.box{
+  box-sizing: border-box;
+  border: 3px solid transparent;
+  background-clip:padding-box;
+}
+.district-col{
+  border: 2px solid;
+  border-radius: 5px;
+  color: green;
+  font-weight: 600;
+  padding: 20px;
+}
+/* .table-content{
+  border: 5px 
+} */
