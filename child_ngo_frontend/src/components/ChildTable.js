@@ -1,17 +1,20 @@
 import React from 'react';
 import {useState,useEffect} from "react";
 import axios from "axios";
-import {Table, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { BsArrowLeft } from 'react-icons/bs';
+import {Table, Button, Modal, ModalHeader, ModalBody, ModalFooter, Col, Row } from 'reactstrap';
 function Child() {
-    var childRow;
     const [childData,updateChildData] = useState([]);
     const [modal, setModal] = useState(false);
-    const [child,setChild] = useState(false);
+    const [child,setChild] = useState();
     const toggle = () => setModal(!modal);
+    var childRow;
+    var childInfo;
+    var token = localStorage.getItem('userToken');
     async function fetchChildData() {
 
         try{
-            const childdata = await axios.get(`http://localhost:8080/child/getAll`);
+            const childdata = await axios.get(`http://localhost:8080/child/getAll`,{ headers: {"auth-token" : `${token}`} });
             const dataFromAPI = childdata.data.results;
             updateChildData(dataFromAPI);
         }
@@ -28,7 +31,6 @@ function Child() {
     }, []);
 
     if(childData){
-        console.log(childData);
          childRow = childData.map((child)=>{
         return(
             <tr>
@@ -43,13 +45,58 @@ function Child() {
             </tr>
         )
         })
-        console.log(childRow);
     }
     function viewChild(props){
-        console.log(props);
-        const mychild = childData.filter((child)=> child._id === props);
+        const mychild = childData.filter((child)=> child._id === props)[0];
+        console.log(mychild);
         setChild(mychild);
+        console.log(child);
         setModal(!modal);
+
+
+    }
+    if(child){
+        const ImageSrc = "/assets/childImages/" + child.imgName;
+        const style = { width: "150px" };
+        childInfo = 
+            <div>
+            <ModalHeader toggle={toggle}>{child.name}</ModalHeader>
+                <ModalBody>
+                <div className='container'>
+                    <Row>
+                    <Col md={1}>
+                        <Button color="secondary" onClick={toggle} className="leftArrow"><BsArrowLeft size="30"/></Button>
+                    </Col>
+                
+                    <Col sm="3" xs="6" md="10">
+                        <img
+                            alt="..."
+                            className=" img-fluid rounded-circle shadow"
+                            src="https://demos.creative-tim.com/argon-design-system-pro/assets/img/faces/team-2.jpg"
+                            style={style}
+                        ></img>
+                        <div className='row mt-4'>
+                            <div className='col-md-4'>Name : {child.name}</div>
+                            <div className='col-md-4'>Sex : {child.sex}</div>
+                            <div className='col-md-4'>Date of Birth : {child.dateOfBirth.split("T")[0]}</div>
+                        </div>
+                        <div className='row mt-4'>
+                            <div className='col-md-4'>Father's Name : {child.fatherName}</div>
+                            <div className='col-md-4'>Monther's Name : {child.motherName}</div>
+                            <div className='col-md-4'>State : {child.state}</div>
+                        </div>
+                        <div className='row mt-4'>
+                            <div className='col-md-4'>District : {child.district}</div>
+                        </div>
+                    </Col>
+                        
+                    </Row>
+                </div>
+                </ModalBody>
+                <ModalFooter>
+                
+            </ModalFooter>
+            </div>
     }
     return (
         <div className='container'>
@@ -70,19 +117,8 @@ function Child() {
                 {childRow}
             </tbody>
             </Table>
-            <Modal isOpen={modal} toggle={toggle} size='lg'>
-                <ModalHeader toggle={toggle}>Child Info</ModalHeader>
-                <ModalBody>
-                <div className='container'>
-                    <div className='row'>
-                        <div className='col-md-4'>{}</div>
-                    </div>
-                </div>
-                </ModalBody>
-                <ModalFooter>
-                <Button color="primary" onClick={toggle}>Do Something</Button>{' '}
-                <Button color="secondary" onClick={toggle}>Cancel</Button>
-                </ModalFooter>
+            <Modal isOpen={modal} toggle={toggle} size='lg' className='childInfoModal'>
+                {childInfo}
             </Modal>
         </div>
     )

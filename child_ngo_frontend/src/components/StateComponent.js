@@ -2,11 +2,13 @@ import { BsArrowRight } from 'react-icons/bs';
 import {useState,useEffect} from 'react';
 import axios from "axios";
 function State(){
+    var token = localStorage.getItem('userToken');
     const [stateData,updateStateData] = useState([]);
+    var stateNumber = 0;
     async function fetchStateData() {
 
         try{
-            const stateData = await axios.get(`http://localhost:8080/state/getAll`);
+            const stateData = await axios.get(`http://localhost:8080/state/getAll`,{ headers: {"auth-token" : `${token}`} });
             const dataFromAPI = stateData.data.results;
             updateStateData(dataFromAPI);
         }
@@ -21,12 +23,13 @@ function State(){
     }, []);
 
     const state = stateData.map((state)=> {
+    stateNumber=stateNumber+1;
     return (
     <div className="col-md-4" key={state._id}>
             <div className="row state-col mb-3">
                 <div className="col-md-4">
                     <div className="circles float-left">
-                        <div className="circle-with-text theme-color-text">{state.stateNumber}</div>
+                        <div className="circle-with-text theme-color-text">{stateNumber}</div>
                     </div>
                 </div>
                 <div className="col-md-4 d-flex align-items-center">
@@ -41,7 +44,7 @@ function State(){
     });
     const [stateInputText, updateStateInputText] = useState("");
     async function handleAddingItems() {
-         const createTask = await axios.post(`http://localhost:8080/state/add`, {
+         const createTask = await axios.post(`http://localhost:8080/state/add`,{ headers: {"auth-token" : `${token}`} }, {
             stateName: stateInputText,
             stateNumber: 1
          });

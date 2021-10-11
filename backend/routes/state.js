@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const State = require('../models/State');
-
+const verify = require('./verifyToken');
 /**
  * Creation of State using POST method
  */
-router.post('/add', function(req, res){
+router.post('/add',verify, function(req, res){
     console.log(req.body);
     const stateName = new State(req.body);
     stateName.save(function(err){
@@ -22,7 +22,7 @@ router.post('/add', function(req, res){
 /**
  * Get All data using GET method
  */
-router.get('/getAll', function(req, res){
+router.get('/getAll',verify, function(req, res){
     State.find({}, { __v: 0 }, function(err,data){
         if(err) {
             console.log("err", err);

@@ -53,9 +53,10 @@ router.post('/login', async (req, res) => {
     if(!validPass) return res.status(400).send('Password is wrong');
 
     //Create and assign token
-    const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
+    const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET,{expiresIn: '1h'});
     res.header('auth-token', token).send({"token":token});
 });
+
 router.get("/me", verify, async (req, res) => {
     try {
       // request.user is getting fetched from Middleware after token authentication

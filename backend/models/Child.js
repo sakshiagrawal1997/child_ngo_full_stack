@@ -8,7 +8,8 @@ const childSchema = new mongoose.Schema(
       fatherName: String,
       motherName: String,
       state: String,
-      district: String
+      district: String,
+      imgName: String
     }
 );
 

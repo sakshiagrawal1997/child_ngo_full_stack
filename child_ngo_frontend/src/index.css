@@ -147,3 +147,11 @@ input:focus, textarea:focus, select:focus{
 /* .table-content{
   border: 5px 
 } */
+.childInfoModal{
+  max-width: 80%;
+}
+.leftArrow{
+  background: none;
+  border: none;
+  color: green;
+}
