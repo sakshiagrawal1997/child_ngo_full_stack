@@ -1,15 +1,20 @@
 import { BsArrowRight } from 'react-icons/bs';
 import {useState,useEffect} from 'react';
 import axios from "axios";
+import Login from './Login';
 function District(){
     var token = localStorage.getItem('userToken');
     const [districtData,updateDistrictData] = useState([]);
     const [stateData,updateStateData] = useState([]);
     var stateOptions;
     var districtNumber = 0;
-    async function fetchDistrictData() {
 
+    async function fetchDistrictData() {
+        if(token === null){
+            return;
+        }
         try{
+            
             const districtData = await axios.get(`http://localhost:8080/district/getAll`,{ headers: {"auth-token" : `${token}`} });
             const dataFromAPI = districtData.data.results;
             updateDistrictData(dataFromAPI);
@@ -21,7 +26,9 @@ function District(){
         
     }
     async function fetchStateData() {
-
+        if(token === null){
+            return;
+        }
         try{
             const statedata = await axios.get(`http://localhost:8080/state/getAll`,{ headers: {"auth-token" : `${token}`} });
             const dataFromAPI = statedata.data.results;
@@ -68,17 +75,23 @@ function District(){
     const [districtInputText, updateDistrictInputText] = useState("");
     const [stateInputText, updateStateInputText] = useState("");
     async function handleAddingItems() {
-         const createTask = await axios.post(`http://localhost:8080/district/add`, { headers: {"auth-token" : `${token}`} },{
+         const createTask = await axios.post(`http://localhost:8080/district/add`,{
                 districtName: districtInputText,
                 stateName: stateInputText,
                 districtNumber: 1
-         });
+         }, { headers: {"auth-token" : `${token}`} });
          console.log(createTask);
         //  alert("States added successfully");
          updateDistrictInputText("");
          updateStateInputText("");
         //  fetchStateData();
     }
+    if(token === null){
+        return(<div><h3>Please Login First</h3>
+        <Login />
+        </div>);
+    }
+    else{
     return(
     <div className="container-fluid px-5">
         <div className="row gx-5">
@@ -111,6 +124,7 @@ function District(){
             {district}
         </div>
     </div>)
+    }
 };
 
 export default District;

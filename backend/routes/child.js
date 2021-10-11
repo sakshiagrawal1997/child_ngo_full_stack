@@ -9,13 +9,6 @@ const verify = require('./verifyToken');
 
  router.post('/add', verify,function(req, res){
     console.log(req.body);
-
-    if (!req.img) {
-        console.log("No file upload");
-    } else {
-        console.log(req.img.filename);
-    }
-
     const child = new Child(req.body);
     child.save(function(err){
         if(err) {

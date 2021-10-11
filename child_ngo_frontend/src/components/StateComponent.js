@@ -1,6 +1,7 @@
 import { BsArrowRight } from 'react-icons/bs';
 import {useState,useEffect} from 'react';
 import axios from "axios";
+import Login from './Login';
 function State(){
     var token = localStorage.getItem('userToken');
     const [stateData,updateStateData] = useState([]);
@@ -8,6 +9,9 @@ function State(){
     async function fetchStateData() {
 
         try{
+            if(token === null){
+                return;
+            }
             const stateData = await axios.get(`http://localhost:8080/state/getAll`,{ headers: {"auth-token" : `${token}`} });
             const dataFromAPI = stateData.data.results;
             updateStateData(dataFromAPI);
@@ -44,15 +48,21 @@ function State(){
     });
     const [stateInputText, updateStateInputText] = useState("");
     async function handleAddingItems() {
-         const createTask = await axios.post(`http://localhost:8080/state/add`,{ headers: {"auth-token" : `${token}`} }, {
+         const createTask = await axios.post(`http://localhost:8080/state/add`, {
             stateName: stateInputText,
             stateNumber: 1
-         });
+         },{ headers: {"auth-token" : `${token}`} });
          console.log(createTask);
         //  alert("States added successfully");
          updateStateInputText("");
         //  fetchStateData();
     }
+    if(token === null){
+        return(<div><h3>Please Login First</h3>
+        <Login />
+        </div>);
+    }
+    else{
     return(
     <div className="container-fluid px-5">
         <div className="row gx-5">
@@ -80,6 +90,7 @@ function State(){
             {state}
         </div>
     </div>)
+    }
 };
 
 export default State;

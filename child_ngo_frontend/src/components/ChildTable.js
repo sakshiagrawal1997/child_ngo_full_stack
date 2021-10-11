@@ -3,6 +3,7 @@ import {useState,useEffect} from "react";
 import axios from "axios";
 import { BsArrowLeft } from 'react-icons/bs';
 import {Table, Button, Modal, ModalHeader, ModalBody, ModalFooter, Col, Row } from 'reactstrap';
+import Login from './Login';
 function Child() {
     const [childData,updateChildData] = useState([]);
     const [modal, setModal] = useState(false);
@@ -14,6 +15,9 @@ function Child() {
     async function fetchChildData() {
 
         try{
+            if(token === null){
+                return;
+            }
             const childdata = await axios.get(`http://localhost:8080/child/getAll`,{ headers: {"auth-token" : `${token}`} });
             const dataFromAPI = childdata.data.results;
             updateChildData(dataFromAPI);
@@ -98,6 +102,12 @@ function Child() {
             </ModalFooter>
             </div>
     }
+    if(token === null){
+        return(<div><h3>Please Login First</h3>
+        <Login />
+        </div>);
+     }
+     else{
     return (
         <div className='container'>
             <Button><a href="/addchild">Add Child</a></Button>
@@ -121,7 +131,7 @@ function Child() {
                 {childInfo}
             </Modal>
         </div>
-    )
+    )}
 }
 
-export default Child
+export default Child;

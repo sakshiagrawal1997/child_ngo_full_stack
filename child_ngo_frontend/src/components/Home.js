@@ -1,4 +1,12 @@
+import Login from './Login';
 function Home(){
+    var token = localStorage.getItem('userToken');
+    if(token === null){
+        return(<div><h3>Please Login First</h3>
+        <Login />
+        </div>);
+    }
+    else{
     return(
         <div className="container">
             <div className="row child-info">
@@ -20,5 +28,6 @@ function Home(){
 
         </div>
     )
+    }
 }
 export default Home;

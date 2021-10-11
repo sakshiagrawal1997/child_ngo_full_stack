@@ -2,6 +2,7 @@ import React from 'react'
 import {useState,useEffect} from 'react';
 import axios from "axios";
 import {useHistory} from "react-router-dom";
+import Login from './Login';
 function AddChild() {
    var token = localStorage.getItem('userToken');
    const [stateData,updateStateData] = useState([]);
@@ -19,6 +20,9 @@ function AddChild() {
    async function fetchStateData() {
 
       try{
+         if(token === null){
+            return;
+        }
           const statedata = await axios.get(`http://localhost:8080/state/getAll`,{ headers: {"auth-token" : `${token}`} });
           const dataFromAPI = statedata.data.results;
           updateStateData(dataFromAPI);
@@ -68,7 +72,7 @@ function AddChild() {
       event.preventDefault();
 
       try{
-         const createTask = await axios.post(`http://localhost:8080/child/add`, { headers: {"auth-token" : `${token}`} },{
+         const createTask = await axios.post(`http://localhost:8080/child/add`,{
                name: event.target.child_name.value,
                sex: event.target.sex.value,
                dateOfBirth: event.target.dob.value,
@@ -78,7 +82,7 @@ function AddChild() {
                district: event.target.district.value,
                imgName: fileName,
                img: file
-         });
+         }, { headers: {"auth-token" : `${token}`} });
          alert('Child ' + event.target.child_name.value + ' added succesfully');
          history.push("/child");
       }
@@ -89,6 +93,12 @@ function AddChild() {
      //  alert("States added successfully");
      //  fetchStateData();
  }
+ if(token === null){
+      return(<div><h3>Please Login First</h3>
+      <Login />
+      </div>);
+   }
+   else{
     return (
         <div className="form-content">
             <div className="form">
@@ -153,10 +163,10 @@ function AddChild() {
                                  {districtOptions}
                               </select>
                            </div>
-                           <div className="form-outline mb-4">
+                           {/* <div className="form-outline mb-4">
                               <input type="file" onChange={saveFile}/>
                                
-                           </div> 
+                           </div>  */}
                             
                            <button type="submit" className="btn btn-primary btn-block theme-color-fill w-100">Add Child</button>
                      </form>
@@ -167,6 +177,7 @@ function AddChild() {
             </div>
         </div>
     )
+   }
 }
 
 export default AddChild
