@@ -3,3 +3,5 @@ To run the project ->
 2. Do npm install in both the folders backend & child_ngo_frontend
 3. Do npm start in both the folders backend & child_ngo_frontend
 4. App will be served on port 3000.
+5. UserName- abc3@example.com
+6. password- 12345698
